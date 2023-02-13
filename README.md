@@ -72,6 +72,7 @@ Direct Message Feature
 
 # Models - ERD
 
+![Alt text](img/App3-API.jpeg)
 1. User Schema
 
 ```.js
