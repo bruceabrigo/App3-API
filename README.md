@@ -1,7 +1,7 @@
-<<<<<<< HEAD
+ 
 =======
 # SOCIAL MEDIA APP
-<<<<<<< HEAD
+##### HEAD
 
 
 # User Story
@@ -12,7 +12,7 @@ By; Rita, Enoch, and Bruce
 
 # User Story
 Welcome to the GenZ era of Social Media. 
-Our Social media app facilitates users to do the following on our website:->
+Our Social media app facilitates users to do the following on our website:-
 
 - Sign-Up
 - Log-In
@@ -158,5 +158,5 @@ const commentSchema = new mongoose.Schema(
   }
 )
 ```
->>>>>>> upstream/main
->>>>>>> main
+###### upstream/main
+###### main
