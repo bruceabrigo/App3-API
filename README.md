@@ -1,14 +1,10 @@
  
 =======
 # SOCIAL MEDIA APP
-##### HEAD
 
-
-# User Story
+## DEVELOPER DETAILS
 - This is a Social Media Application
-=======
-BRE-Crypt
-By; Rita, Enoch, and Bruce
+-  CREATED BY BRE-Crypt ===> Rita, Enoch, and Bruce
 
 # User Story
 Welcome to the GenZ era of Social Media. 
@@ -39,25 +35,13 @@ BONUS
 6. Express
 7. React
 
-# Wireframes
-
-1) Website Landing Screen 
-(i) Login or Signup
-
-![Alt text](img/Screen_Shot_2023-02-11_at_2.54.48_PM.png)
-![Alt text](img/Screen_Shot_2023-02-11_at_3.09.14_PM.png)
 
 
-2) Home Screen
-(i) 
-![Alt text](img/BRE-Crypt.jpg)
-![Alt text](img/BRE-Crypt2.jpg)
-![Alt text](img/BRE-Crypt3.jpg)
+# ENTITY RELATIONSHIP CHART
 
-# ENTI
+![Alt text](img/App3-API.jpeg)
 
 # Models 
-
 1. User Schema
 
 ```.js
