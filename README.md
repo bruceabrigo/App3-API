@@ -1,5 +1,6 @@
 # SOCIAL MEDIA APP
 BRE-Crypt
+By; Rita, Enoch, and Bruce
 
 # User Story
 Welcome to the GenZ era of Social Media. 
