@@ -1,5 +1,4 @@
  
-=======
 # SOCIAL MEDIA APP
 
 ## DEVELOPER DETAILS
