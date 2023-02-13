@@ -54,7 +54,9 @@ BONUS
 ![Alt text](img/BRE-Crypt2.jpg)
 ![Alt text](img/BRE-Crypt3.jpg)
 
-# Models - ERD
+# ENTI
+
+# Models 
 
 1. User Schema
 
@@ -158,5 +160,5 @@ const commentSchema = new mongoose.Schema(
   }
 )
 ```
-###### upstream/main
-###### main
+
+
