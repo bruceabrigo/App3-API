@@ -10,17 +10,15 @@ const requireToken = passport.authenticate('bearer', { session: false })
 const router = express.Router()
 const mongoose = require('mongoose')
 
-// ---------------- CREATE ----------------
-router.post('/:user', (req, res, next) => {
-    user = req.params.user
-    Content.create(req.body.content)
-        .then((content) => {
-            res.status(201).json({content: content.toObject()})
-        })
-        .catch(next)
 
-})
-// GET INDEX
+
+// ---------------- PUSH USERS IN ARRAY ----------------
+
+
+
+
+// ---------------- GET INDEX ----------------
+// ROUTES -> /content/
 router.get('/', (req, res, next) => {
     user = req.params.user
     Content.find({})
@@ -32,7 +30,36 @@ router.get('/', (req, res, next) => {
         .catch(next)
 
 })
+
+// ---------------- DELETE ----------------
+
+
+router.delete('/delete/:contentId', (req, res, next) => {
+    // Need userId to match the owner of the content
+    const contentId = req.params.contentId;
+    Content.deleteOne({ _id: contentId })
+      .then((content) => {
+        console.log(content)
+        res.status(200).json({ message: 'Content deleted successfully' });
+      })
+      .catch(next);
+  });
+  
+
+// ---------------- CREATE ----------------
+// ROUTES -> /content/:user
+router.post('/:user', (req, res, next) => {
+    user = req.params.user
+    Content.create(req.body.content)
+        .then((content) => {
+            res.status(201).json({content: content.toObject()})
+        })
+        .catch(next)
+
+})
+
 // ---------------- SHOW One Content  ----------------
+// ROUTES -> /content/:user
 router.get('/:user', (req, res, next) => {
     user = req.params.user
     Content.findById(user)
@@ -45,42 +72,24 @@ router.get('/:user', (req, res, next) => {
 })
 
 // ---------------- UPDATE ----------------
-// router.patch('/:contentId', (req, res, next) => {
-// 	const contentId = req.params.content
-// 	console.log(` ========= This is CONTENT =========`, contentId)
-
-
-  
-// 	// Content.findByIdAndUpdate(contentId, { $set: req.body.content }, { new: true })
-// 	//   .then((updatedContent) => {
-// 	// 	if (!updatedContent) {
-// 	// 	  throw new Error(`User with id ${updatedContent} CONTENT not found`)
-// 	// 	}
-  
-// 	// 	console.log(`========= UPDATED USER =======`, updatedContent);
-// 	// 	res.json({ message: 'Content updated successfully', content: updatedContent })
-// 	//   })
-//     //   .then(() => res.sendStatus(204))
-// 	//   .catch(next)
-// })
+// ROUTES -> /content/:contentId
 
 router.patch('/:contentId', (req, res, next) => {
-    const contentId = req.params.contentId;
-    console.log(` ========= This is CONTENT ID =========`, contentId);
+    const contentId = req.params.contentId
+    console.log(` ========= This is CONTENT ID =========`, contentId)
   
     Content.findByIdAndUpdate(contentId, { $set: req.body }, { new: true })
       .then((updatedContent) => {
         if (!updatedContent) {
-          throw new Error(`Content with id ${contentId} not found`);
+          throw new Error(`Content with id ${contentId} not found`)
         }
   
-        console.log(`========= UPDATED CONTENT =======`, updatedContent);
-        res.json({ message: 'Content updated successfully', content: updatedContent });
+        console.log(`========= UPDATED CONTENT =======`, updatedContent)
+        res.json({ message: 'Content updated successfully', content: updatedContent })
       })
-      .catch(next);
-  });
+      .catch(next)
+  })
   
-// ---------------- DELETE ----------------
 
 
 module.exports = router
