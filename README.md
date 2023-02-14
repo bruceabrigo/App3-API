@@ -45,6 +45,7 @@ BONUS
 ### User Routes
 | **URL**            | **HTTP Verb**|**Action**     |
 |--------------------|--------------|---------------|
+| /             | GET          | All Users          |
 | /sign-up      | GET          | new                |
 | /sign-up      | POST         | create             |
 | /sign-in      | GET          | login              |

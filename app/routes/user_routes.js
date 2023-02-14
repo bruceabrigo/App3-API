@@ -18,6 +18,15 @@ const requireToken = passport.authenticate('bearer', { session: false })
 const router = express.Router()
 
 //================================= GET ALL USERS =========================
+// GET - /
+router.get('/', (req,res,next)=> {
+	User.find({})
+		.then(errors.handle404)
+		.then((users)=> {
+			console.log(`--------THESE ARE ALL THE USERS--------`, users)
+			res.json({users: users})
+		})
+})
 
 
 //=================================== SIGN UP ================================
@@ -88,42 +97,30 @@ router.post('/sign-in', (req, res, next) => {
 // PATCH /change-password
 router.patch('/change-password', requireToken, (req, res, next) => {
 	let user
-	// `req.user` will be determined by decoding the token payload
 	User.findById(req.user.id)
-		// save user outside the promise chain
+	
 		.then((record) => {
 			user = record
 		})
-		// check that the old password is correct
 		.then(() => bcrypt.compare(req.body.passwords.old, user.hashedPassword))
-		// `correctPassword` will be true if hashing the old password ends up the
-		// same as `user.hashedPassword`
 		.then((correctPassword) => {
-			// throw an error if the new password is missing, an empty string,
-			// or the old password was wrong
 			if (!req.body.passwords.new || !correctPassword) {
 				throw new BadParamsError()
 			}
 		})
-		// hash the new password
 		.then(() => bcrypt.hash(req.body.passwords.new, bcryptSaltRounds))
 		.then((hash) => {
-			// set and save the new hashed password in the DB
 			user.hashedPassword = hash
 			return user.save()
 		})
-		// respond with no content and status 200
 		.then(() => res.sendStatus(204))
-		// pass any errors along to the error handler
 		.catch(next)
 })
 
 // ================================ SIGN OUT ================================
 // DELETE /sign-out
 router.delete('/sign-out', requireToken, (req, res, next) => {
-	// create a new random token for the user, invalidating the current one
 	req.user.token = crypto.randomBytes(16)
-	// save the token and respond with 204
 	req.user
 		.save()
 		.then(() => res.sendStatus(204))
