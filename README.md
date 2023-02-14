@@ -40,6 +40,20 @@ BONUS
 
 ![Alt text](img/App3-API.jpeg)
 
+# ROUTES
+
+### User Routes
+| **URL**            | **HTTP Verb**|**Action**     |
+|--------------------|--------------|---------------|
+| /sign-up      | GET          | new                |
+| /sign-up      | POST         | create             |
+| /sign-in      | GET          | login              |
+| /sign-in      | POST         | create             |
+| /sign-out     | DELETE       | destroy            |
+| /update       | UPDATE       | Update info        |
+
+
+
 # Models 
 1. User Schema
 
