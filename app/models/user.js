@@ -12,6 +12,27 @@ const userSchema = new mongoose.Schema(
 			required: true,
 		},
 		token: String,
+		profilePicture: {
+			type: String,
+			data: Buffer
+		},
+		coverPicture: {
+			type: String,
+			data: Buffer
+		},
+		name: {
+			type: String
+		},
+		description: {
+			type: String
+		},
+		city: {
+			type: String
+		},
+		active: {
+			type: Boolean
+		}
+
 	},
 	{
 		timestamps: true,
