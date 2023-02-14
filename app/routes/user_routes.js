@@ -18,7 +18,8 @@ const requireToken = passport.authenticate('bearer', { session: false })
 const router = express.Router()
 
 //================================= GET ALL USERS =========================
-// GET - /
+// GET 
+// ROUTE -> /
 router.get('/', (req,res,next)=> {
 	User.find({})
 		.then(errors.handle404)
@@ -30,7 +31,8 @@ router.get('/', (req,res,next)=> {
 
 
 //=================================== SIGN UP ================================
-// POST /sign-up
+// POST
+// ROUTE ->  /sign-up
 router.post('/sign-up', (req, res, next) => {
 
 	Promise.resolve(req.body.credentials)
@@ -64,7 +66,8 @@ router.post('/sign-up', (req, res, next) => {
 })
 
 // ================================ SIGN IN ================================
-// POST /sign-in
+// POST 
+// ROUTE -> /sign-in
 router.post('/sign-in', (req, res, next) => {
 	const pw = req.body.credentials.password
 	let user
@@ -94,7 +97,8 @@ router.post('/sign-in', (req, res, next) => {
 })
 
 // ================================ CHANGE password ================================
-// PATCH /change-password
+// PATCH 
+// ROUTE -> /change-password
 router.patch('/change-password', requireToken, (req, res, next) => {
 	let user
 	User.findById(req.user.id)
@@ -118,7 +122,8 @@ router.patch('/change-password', requireToken, (req, res, next) => {
 })
 
 // ================================ SIGN OUT ================================
-// DELETE /sign-out
+// DELETE 
+// ROUTE -> /sign-out
 router.delete('/sign-out', requireToken, (req, res, next) => {
 	req.user.token = crypto.randomBytes(16)
 	req.user
@@ -128,7 +133,8 @@ router.delete('/sign-out', requireToken, (req, res, next) => {
 })
 
 // ================================ UPDATE ================================
-// PUT /update
+// PUT
+// ROUTE ->  /update
 
 
 router.patch('/update', requireToken, (req, res, next) => {
