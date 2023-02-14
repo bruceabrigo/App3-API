@@ -44,7 +44,7 @@ router.get('/followers/:user/:anUserId', (req, res) => {
                 console.log(`this is followCart`, fcart)
         
                 fcart.followers.push(anUserId)
-                console.log(fcart.followers.push(anUserId))
+                // console.log(fcart.followers.push(anUserId))
                 return fcart.save()
 
                 
