@@ -12,23 +12,41 @@ const mongoose = require('mongoose')
 
 
 
-// ---------------- PUSH USERS IN ARRAY ----------------
-
 
 
 
 // ---------------- GET INDEX ----------------
 // ROUTES -> /content/
 router.get('/', (req, res, next) => {
-    user = req.params.user
     Content.find({})
         .populate('owner')
         .then((contents) => {
             res.json({contents})
         })
-        .then((contents) => res.status(200).json({contents: contents}))
         .catch(next)
 
+})
+
+// ---------------- PUSH USERS IN ARRAY ----------------
+
+
+router.get('/likes/:userId/:conId', (req,res,next)=> {
+    // Need user id and content Id
+    user = req.params.userId
+    con = req.params.conId
+    console.log(`This is userId`, user)
+    console.log(`This is contentId`, con)
+
+    Content.findOne({ _id: con })
+        .then((content) => {
+            content.likes.push(user)
+            return content.save()
+        })
+        .then((content) => {
+            console.log(content)
+            res.status(201)
+        })
+        .catch(next)
 })
 
 // ---------------- DELETE ----------------
