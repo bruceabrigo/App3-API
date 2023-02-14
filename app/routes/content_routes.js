@@ -13,9 +13,7 @@ const mongoose = require('mongoose')
 // ---------------- CREATE ----------------
 router.post('/content/:user', (req, res, next) => {
     user = req.params.user
-    Content.create(
-        req.body.content
-    )
+    Content.create(req.body.content)
         .then((content) => {
             res.status(201).json({content: content.toObject()})
         })
@@ -26,6 +24,7 @@ router.post('/content/:user', (req, res, next) => {
 router.get('/content', (req, res, next) => {
     user = req.params.user
     Content.find({})
+        .populate('owner')
         .then((contents) => {
             res.json({contents})
         })
@@ -34,9 +33,36 @@ router.get('/content', (req, res, next) => {
 
 })
 // ---------------- SHOW One Content  ----------------
+router.get('/content/:user', (req, res, next) => {
+    user = req.params.user
+    Content.findById(user)
+    .populate('owner')
+        .then((content) => {
+            res.json({content: content})
+        })
+        .then((content) => res.status(200).json({content:content}))
+        .catch(next)
+})
 
 // ---------------- UPDATE ----------------
+router.patch('/:contentId', (req, res, next) => {
+	const contentId = req.content
+	console.log(` ========= This is CONTENT =========`, contentId)
 
+
+  
+	// Content.findByIdAndUpdate(contentId, { $set: req.body.content }, { new: true })
+	//   .then((updatedContent) => {
+	// 	if (!updatedContent) {
+	// 	  throw new Error(`User with id ${updatedContent} CONTENT not found`)
+	// 	}
+  
+	// 	console.log(`========= UPDATED USER =======`, updatedContent);
+	// 	res.json({ message: 'Content updated successfully', content: updatedContent })
+	//   })
+    //   .then(() => res.sendStatus(204))
+	//   .catch(next)
+})
 // ---------------- DELETE ----------------
 
 
