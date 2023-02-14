@@ -1,6 +1,15 @@
+<<<<<<< HEAD
 # SOCIAL MEDIA APP
 BRE-Crypt
 By; Rita, Enoch, and Bruce
+=======
+ 
+# SOCIAL MEDIA APP
+
+## DEVELOPER DETAILS
+- This is a Social Media Application
+-  CREATED BY BRE-Crypt ===> Rita, Enoch, and Bruce
+>>>>>>> ad1f0e8bdf93bbeaf6ccf93610e08e341b3a5502
 
 # User Story
 Welcome to the GenZ era of Social Media. 
@@ -31,8 +40,8 @@ BONUS
 6. Express
 7. React
 
-# Wireframes
 
+<<<<<<< HEAD
 1) Website Landing Screen
 Login
   - Initial landing page will prompt a retuning user to Log-In or Sign Up
@@ -53,6 +62,29 @@ Direct Message Feature
 
 # Models - ERD
 
+=======
+
+# ENTITY RELATIONSHIP CHART
+
+![Alt text](img/App3-API.jpeg)
+
+# ROUTES
+
+### User Routes
+| **URL**            | **HTTP Verb**|**Action**     |
+|--------------------|--------------|---------------|
+| /             | GET          | All Users          |
+| /sign-up      | GET          | new                |
+| /sign-up      | POST         | create             |
+| /sign-in      | GET          | login              |
+| /sign-in      | POST         | create             |
+| /sign-out     | DELETE       | destroy            |
+| /update       | UPDATE       | Update info        |
+
+
+
+# Models 
+>>>>>>> ad1f0e8bdf93bbeaf6ccf93610e08e341b3a5502
 1. User Schema
 
 ```.js
@@ -131,5 +163,11 @@ const contentSchema = new mongoose.Schema(
 
   }, {timestamps: true}
 )
+<<<<<<< HEAD
 
 ```.js
+=======
+```
+
+
+>>>>>>> ad1f0e8bdf93bbeaf6ccf93610e08e341b3a5502

@@ -35,8 +35,42 @@ const userSchema = new mongoose.Schema(
 		password_confirmation: {
 			type: String
 		},
+<<<<<<< HEAD
 		description: {
 			type: String
+=======
+		token: String,
+		profilePicture: {
+			type: String,
+			data: Buffer
+		},
+		coverPicture: {
+			type: String,
+			data: Buffer
+		},
+		name: {
+			type: String
+		},
+		description: {
+			type: String
+		},
+		city: {
+			type: String
+		},
+		active: {
+			type: Boolean
+		}
+
+	},
+	{
+		timestamps: true,
+		toObject: {
+			// remove `hashedPassword` field when we call `.toObject`
+			transform: (_doc, user) => {
+				delete user.hashedPassword
+				return user
+			},
+>>>>>>> ad1f0e8bdf93bbeaf6ccf93610e08e341b3a5502
 		},
 		city: {
 			type: String
@@ -52,7 +86,12 @@ const userSchema = new mongoose.Schema(
 	  }
 )
 
+<<<<<<< HEAD
 // Converting to Model
 const User = model('User', userSchema)
 
 module.exports = User
+=======
+
+module.exports = mongoose.model('User', userSchema)
+>>>>>>> ad1f0e8bdf93bbeaf6ccf93610e08e341b3a5502
