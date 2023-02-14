@@ -70,14 +70,6 @@ const userSchema = new mongoose.Schema(
         type: String,
         data: Buffer
     },
-    followers: [
-        {type: Schema.Types.ObjectId,
-        ref: 'User'} 
-    ],
-    followings: [
-        {type: Schema.Types.ObjectId,
-        ref: 'User'} 
-    ],
     username: { 
       type: String, 
       required: true, 
@@ -107,6 +99,19 @@ const userSchema = new mongoose.Schema(
   }
 )
 ```
+
+2. FollowCart Schema
+const followCartSchema = new mongoose.Schema(
+  followers: [
+    {type: Schema.Types.ObjectId,
+    ref: 'User'} 
+  ],
+  followings: [
+    {type: Schema.Types.ObjectId,
+    ref: 'User'} 
+    ]
+
+)
 
 
 2. Content Schema
