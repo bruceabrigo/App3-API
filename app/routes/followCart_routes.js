@@ -88,7 +88,7 @@ router.get('/followers/:user/:anUserId', (req, res) => {
         });
 });
 
-//=============================== ADDING FOLLOWERS ===================================
+//===============================  FOLLOWING OTHERS ===================================
 // ROUTES -> /:user/:anUserId
 
 router.get('/:user/:anUserId', (req, res) => {

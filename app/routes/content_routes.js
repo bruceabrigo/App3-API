@@ -12,14 +12,11 @@ const mongoose = require('mongoose')
 
 
 
-
-
-
 // ---------------- GET INDEX ----------------
 // ROUTES -> /content/
 router.get('/', (req, res, next) => {
     Content.find({})
-        .populate('owner')
+        .populate('owner', 'likes', 'user')
         .then((contents) => {
             res.json({contents})
         })
@@ -28,7 +25,7 @@ router.get('/', (req, res, next) => {
 })
 
 // ---------------- PUSH USERS IN ARRAY ----------------
-
+// ROUTES -> /content/likes/:userId/:conId
 
 router.get('/likes/:userId/:conId', (req,res,next)=> {
     // Need user id and content Id
@@ -38,6 +35,7 @@ router.get('/likes/:userId/:conId', (req,res,next)=> {
     console.log(`This is contentId`, con)
 
     Content.findOne({ _id: con })
+        .populate('owner', 'likes')
         .then((content) => {
             content.likes.push(user)
             return content.save()
@@ -50,7 +48,7 @@ router.get('/likes/:userId/:conId', (req,res,next)=> {
 })
 
 // ---------------- DELETE ----------------
-
+// ROUTES -> /content/delete/:contentId
 
 router.delete('/delete/:contentId', (req, res, next) => {
     // Need userId to match the owner of the content
@@ -81,7 +79,7 @@ router.post('/:user', (req, res, next) => {
 router.get('/:user', (req, res, next) => {
     user = req.params.user
     Content.findById(user)
-    .populate('owner')
+        // .populate('owner', 'likes')
         .then((content) => {
             res.json({content: content})
         })
@@ -97,15 +95,15 @@ router.patch('/:contentId', (req, res, next) => {
     console.log(` ========= This is CONTENT ID =========`, contentId)
   
     Content.findByIdAndUpdate(contentId, { $set: req.body }, { new: true })
-      .then((updatedContent) => {
-        if (!updatedContent) {
-          throw new Error(`Content with id ${contentId} not found`)
-        }
-  
-        console.log(`========= UPDATED CONTENT =======`, updatedContent)
-        res.json({ message: 'Content updated successfully', content: updatedContent })
-      })
-      .catch(next)
+        .populate('owner', 'likes')
+        .then((updatedContent) => {
+            if (!updatedContent) {
+            throw new Error(`Content with id ${contentId} not found`)
+            }
+            console.log(`========= UPDATED CONTENT =======`, updatedContent)
+            res.json({ message: 'Content updated successfully', content: updatedContent })
+        })
+        .catch(next)
   })
   
 
