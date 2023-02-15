@@ -37,7 +37,7 @@ router.post('/sign-up', (req, res, next) => {
 
 	Promise.resolve(req.body.credentials)
 		.then((credentials) => {
-			console.log(credentials)
+			console.log(req.body.credentials)
 			if (
 				!credentials ||
 				!credentials.password ||
@@ -49,6 +49,7 @@ router.post('/sign-up', (req, res, next) => {
 		})
 		.then(() => bcrypt.hash(req.body.credentials.password, bcryptSaltRounds))
 		.then((hash) => {
+			console.log(`=========== req.body.credentials.name=========`, req.body.credentials.name)
 			return {
 				email: req.body.credentials.email,
 				hashedPassword: hash,
