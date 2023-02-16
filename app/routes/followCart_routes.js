@@ -19,9 +19,9 @@ const BadCredentialsError = errors.BadCredentialsError
 const router = express.Router()
 
 //=============================== CREATE & PUSH ===================================
-// ROUTES - /follow
+// ROUTES - /follow/
 
-router.get('/follow', (req,res)=> {
+router.get('/', (req,res)=> {
 	FollowCart.find({})
 		.then(errors.handle404)
 		.then((fcart)=> {
@@ -31,9 +31,9 @@ router.get('/follow', (req,res)=> {
 })
 
 //=============================== ADDING FOLLOWERS ===================================
-// ROUTES - /followers/:user/:anUserId
+// ROUTES - /follow/followers/:user/:anUserId
 
-router.get('/followers/:user/:anUserId', (req, res) => {
+router.get('/:user/:anUserId', (req, res) => {
     const userid = req.params.user
     const anUserId = req.params.anUserId
     console.log(`========= USER ID =======`, userid)
@@ -89,7 +89,7 @@ router.get('/followers/:user/:anUserId', (req, res) => {
 });
 
 //===============================  FOLLOWING OTHERS ===================================
-// ROUTES -> /:user/:anUserId
+// ROUTES -> /follow/:user/:anUserId
 
 router.get('/:user/:anUserId', (req, res) => {
     const userid = req.params.user

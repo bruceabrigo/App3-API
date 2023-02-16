@@ -43,15 +43,16 @@ BONUS
 # ROUTES
 
 ### User Routes
-| **URL**            | **HTTP Verb**|**Action**     |
-|--------------------|--------------|---------------|
-| /                  | GET          | all Users     |
-| /sign-up           | GET          | new           |
-| /sign-up           | POST         | create        |
-| /sign-in           | GET          | login         |
-| /sign-in           | POST         | create        |
-| /sign-out          | DELETE       | destroy       |
-| /update            | UPDATE       | Update info   |
+| **URL**            | **HTTP Verb**|**Action**          |
+|--------------------|--------------|--------------------|
+| /                  | GET          | all Users          |
+| /sign-up           | GET          | new                |
+| /sign-up           | POST         | create             |
+| /sign-in           | GET          | login              |
+| /sign-in           | POST         | create             |
+| /sign-out          | DELETE       | destroy            |
+| /update/:userId    | UPDATE       | Update info        |
+| /:userId           | GET          | Show user Profile  |
 
 
 ### FollowCart Routes

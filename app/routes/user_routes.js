@@ -27,6 +27,7 @@ router.get('/', (req,res,next)=> {
 			console.log(`--------THESE ARE ALL THE USERS--------`, users)
 			res.json({users: users})
 		})
+		.catch(next)
 })
 
 
@@ -135,12 +136,23 @@ router.delete('/sign-out', requireToken, (req, res, next) => {
 
 // ================================ UPDATE ================================
 // PUT
-// ROUTE ->  /update
+// ROUTE ->  /update/:userId
+
+// router.get('/update/:userId', requireToken, (req,res)=> {
+// 	const userId = req.params.userId
+// 	User.findById(userId)
+// 		.then(errors.handle404)
+// 		.then(user=> {
+// 			console.log(user)
+// 			res.json({user:user})
+// 		})
+// })
 
 
-router.patch('/update', requireToken, (req, res, next) => {
+router.patch('/update/:userId', requireToken, (req, res, next) => {
 	// using userId to avoid using it directly in find to avoid '_.id' issues
-	const userId = req.user.id
+	const userId = req.params.userId
+	// const userId = req.user.id
 	console.log(` ========= This is USERID =========`, userId)
   
 	User.findByIdAndUpdate(userId, { $set: req.body.credentials }, { new: true })
@@ -157,6 +169,27 @@ router.patch('/update', requireToken, (req, res, next) => {
 		res.status(500).json({ message: err.message })
 	  })
   })
+
+  // ================================ SHOW PROFILE ================================
+//   router.get('/:userId', (req,res,next)=> {
+// 	const user = req.params.userId
+// 	User.findById(user)
+// 		.then(errors.handle404)
+// 		.then((user)=> {
+// 			console.log(`--------THIS IS A SPECIFIC USER--------`, user)
+// 			res.json({user: user})
+// 		})
+// })
+
+router.get('/:userId', (req,res,next)=> {
+	const user = req.params.userId
+	User.findById(user)
+		.then(errors.handle404)
+		.then((user)=> {
+			console.log(`--------THIS IS A SPECIFIC USER--------`, user)
+			res.json({user: user})
+		})
+})
 
   
 

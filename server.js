@@ -67,7 +67,7 @@ app.use(requestLogger)
 
 // register route files
 app.use('/content', contentRouter)
-app.use(followCartRoutes)
+app.use('/follow', followCartRoutes)
 app.use(userRoutes)
 
 
