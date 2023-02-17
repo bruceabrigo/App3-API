@@ -18,7 +18,12 @@ const requireToken = passport.authenticate('bearer', { session: false })
 const router = express.Router()
 
 //================================= GET ALL USERS =========================
+<<<<<<< HEAD
 // GET - /
+=======
+// GET 
+// ROUTE -> /
+>>>>>>> bab7f29da3d915837d42f4e46a71b2f8b9ff4081
 router.get('/', (req,res,next)=> {
 	User.find({})
 		.then(errors.handle404)
@@ -26,16 +31,29 @@ router.get('/', (req,res,next)=> {
 			console.log(`--------THESE ARE ALL THE USERS--------`, users)
 			res.json({users: users})
 		})
+<<<<<<< HEAD
+=======
+		.catch(next)
+>>>>>>> bab7f29da3d915837d42f4e46a71b2f8b9ff4081
 })
 
 
 //=================================== SIGN UP ================================
+<<<<<<< HEAD
 // POST /sign-up
+=======
+// POST
+// ROUTE ->  /sign-up
+>>>>>>> bab7f29da3d915837d42f4e46a71b2f8b9ff4081
 router.post('/sign-up', (req, res, next) => {
 
 	Promise.resolve(req.body.credentials)
 		.then((credentials) => {
+<<<<<<< HEAD
 			console.log(credentials)
+=======
+			console.log(req.body.credentials)
+>>>>>>> bab7f29da3d915837d42f4e46a71b2f8b9ff4081
 			if (
 				!credentials ||
 				!credentials.password ||
@@ -47,6 +65,10 @@ router.post('/sign-up', (req, res, next) => {
 		})
 		.then(() => bcrypt.hash(req.body.credentials.password, bcryptSaltRounds))
 		.then((hash) => {
+<<<<<<< HEAD
+=======
+			console.log(`=========== req.body.credentials.name=========`, req.body.credentials.name)
+>>>>>>> bab7f29da3d915837d42f4e46a71b2f8b9ff4081
 			return {
 				email: req.body.credentials.email,
 				hashedPassword: hash,
@@ -64,7 +86,12 @@ router.post('/sign-up', (req, res, next) => {
 })
 
 // ================================ SIGN IN ================================
+<<<<<<< HEAD
 // POST /sign-in
+=======
+// POST 
+// ROUTE -> /sign-in
+>>>>>>> bab7f29da3d915837d42f4e46a71b2f8b9ff4081
 router.post('/sign-in', (req, res, next) => {
 	const pw = req.body.credentials.password
 	let user
@@ -94,7 +121,12 @@ router.post('/sign-in', (req, res, next) => {
 })
 
 // ================================ CHANGE password ================================
+<<<<<<< HEAD
 // PATCH /change-password
+=======
+// PATCH 
+// ROUTE -> /change-password
+>>>>>>> bab7f29da3d915837d42f4e46a71b2f8b9ff4081
 router.patch('/change-password', requireToken, (req, res, next) => {
 	let user
 	User.findById(req.user.id)
@@ -118,7 +150,12 @@ router.patch('/change-password', requireToken, (req, res, next) => {
 })
 
 // ================================ SIGN OUT ================================
+<<<<<<< HEAD
 // DELETE /sign-out
+=======
+// DELETE 
+// ROUTE -> /sign-out
+>>>>>>> bab7f29da3d915837d42f4e46a71b2f8b9ff4081
 router.delete('/sign-out', requireToken, (req, res, next) => {
 	req.user.token = crypto.randomBytes(16)
 	req.user
@@ -128,12 +165,33 @@ router.delete('/sign-out', requireToken, (req, res, next) => {
 })
 
 // ================================ UPDATE ================================
+<<<<<<< HEAD
 // PUT /update
 
 
 router.patch('/update', requireToken, (req, res, next) => {
 	// using userId to avoid using it directly in find to avoid '_.id' issues
 	const userId = req.user.id
+=======
+// PUT
+// ROUTE ->  /update/:userId
+
+// router.get('/update/:userId', requireToken, (req,res)=> {
+// 	const userId = req.params.userId
+// 	User.findById(userId)
+// 		.then(errors.handle404)
+// 		.then(user=> {
+// 			console.log(user)
+// 			res.json({user:user})
+// 		})
+// })
+
+
+router.patch('/update/:userId', requireToken, (req, res, next) => {
+	// using userId to avoid using it directly in find to avoid '_.id' issues
+	const userId = req.params.userId
+	// const userId = req.user.id
+>>>>>>> bab7f29da3d915837d42f4e46a71b2f8b9ff4081
 	console.log(` ========= This is USERID =========`, userId)
   
 	User.findByIdAndUpdate(userId, { $set: req.body.credentials }, { new: true })
@@ -151,6 +209,30 @@ router.patch('/update', requireToken, (req, res, next) => {
 	  })
   })
 
+<<<<<<< HEAD
+=======
+  // ================================ SHOW PROFILE ================================
+//   router.get('/:userId', (req,res,next)=> {
+// 	const user = req.params.userId
+// 	User.findById(user)
+// 		.then(errors.handle404)
+// 		.then((user)=> {
+// 			console.log(`--------THIS IS A SPECIFIC USER--------`, user)
+// 			res.json({user: user})
+// 		})
+// })
+
+router.get('/:userId', (req,res,next)=> {
+	const user = req.params.userId
+	User.findById(user)
+		.then(errors.handle404)
+		.then((user)=> {
+			console.log(`--------THIS IS A SPECIFIC USER--------`, user)
+			res.json({user: user})
+		})
+})
+
+>>>>>>> bab7f29da3d915837d42f4e46a71b2f8b9ff4081
   
 
 module.exports = router

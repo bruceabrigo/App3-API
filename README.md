@@ -1,15 +1,23 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # SOCIAL MEDIA APP
 BRE-Crypt
 By; Rita, Enoch, and Bruce
 =======
  
 # SOCIAL MEDIA APP
+=======
+ 
+# SOCIAL MEDIA APP
+>>>>>>> bab7f29da3d915837d42f4e46a71b2f8b9ff4081
 
 ## DEVELOPER DETAILS
 - This is a Social Media Application
 -  CREATED BY BRE-Crypt ===> Rita, Enoch, and Bruce
+<<<<<<< HEAD
 >>>>>>> ad1f0e8bdf93bbeaf6ccf93610e08e341b3a5502
+=======
+>>>>>>> bab7f29da3d915837d42f4e46a71b2f8b9ff4081
 
 # User Story
 Welcome to the GenZ era of Social Media. 
@@ -42,6 +50,7 @@ BONUS
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 1) Website Landing Screen
 Login
   - Initial landing page will prompt a retuning user to Log-In or Sign Up
@@ -61,6 +70,10 @@ Direct Message Feature
 ![Alt text](img/BRE-Crypt3.jpg)
 
 # Models - ERD
+=======
+
+# ENTITY RELATIONSHIP CHART
+>>>>>>> bab7f29da3d915837d42f4e46a71b2f8b9ff4081
 
 =======
 
@@ -73,6 +86,7 @@ Direct Message Feature
 ### User Routes
 | **URL**            | **HTTP Verb**|**Action**     |
 |--------------------|--------------|---------------|
+<<<<<<< HEAD
 | /             | GET          | All Users          |
 | /sign-up      | GET          | new                |
 | /sign-up      | POST         | create             |
@@ -80,16 +94,52 @@ Direct Message Feature
 | /sign-in      | POST         | create             |
 | /sign-out     | DELETE       | destroy            |
 | /update       | UPDATE       | Update info        |
+=======
+| /                  | GET          | all Users     |
+| /sign-up           | GET          | new           |
+| /sign-up           | POST         | create        |
+| /sign-in           | GET          | login         |
+| /sign-in           | POST         | create        |
+| /sign-out          | DELETE       | destroy       |
+| /update            | UPDATE       | Update info   |
+
+
+### FollowCart Routes
+| **URL**                        | **HTTP Verb**|**Action**       |
+|--------------------------------|--------------|-----------------|
+| /follow                        | GET          | all followCarts |
+| /followers/:user/:anUserId     | GET/CREATE   | add Followers   |
+| /:user/:anUserId               | GET/CREATE   | follow Others   |
+
+
+### Content Routes
+| **URL**                        | **HTTP Verb**|**Action**               |
+|--------------------------------|--------------|-------------------------|
+| /content/:user                 | POST         | create                  | 
+| /content/                      | GET          | all Content             |
+| /content/:user                 | GET          | specific User's Content |
+| /content/likes/:userId/:conId  | GET/CREATE   | add likes to content    |
+| /content/:contentId            | UPDATE       | update content          |
+| /content/delete/:contentId     | DELETE       | remove content          |
+
+
+
+
+
+>>>>>>> bab7f29da3d915837d42f4e46a71b2f8b9ff4081
 
 
 
 # Models 
+<<<<<<< HEAD
 >>>>>>> ad1f0e8bdf93bbeaf6ccf93610e08e341b3a5502
+=======
+>>>>>>> bab7f29da3d915837d42f4e46a71b2f8b9ff4081
 1. User Schema
 
 ```.js
-
 const userSchema = new mongoose.Schema(
+<<<<<<< HEAD
   {
     profilePicture: {
       type: String,
@@ -128,13 +178,77 @@ const userSchema = new mongoose.Schema(
     active: {
         type: Boolean
     }
+=======
+	{
+		email: {
+			type: String,
+			required: true,
+			unique: true,
+		},
+		hashedPassword: {
+			type: String,
+			required: true,
+		},
+		token: String,
+		profilePicture: {
+			type: String,
+			data: Buffer
+		},
+		coverPicture: {
+			type: String,
+			data: Buffer
+		},
+		name: {
+			type: String
+		},
+		description: {
+			type: String
+		},
+		city: {
+			type: String
+		},
+		active: {
+			type: Boolean
+		}
+>>>>>>> bab7f29da3d915837d42f4e46a71b2f8b9ff4081
 
-  }, {
-      timestamps: true,
-      toObject: { virtuals: true },
-      toJSON: { virtuals: true }
-  }
+	},
+	{
+		timestamps: true,
+		toObject: {
+			// remove `hashedPassword` field when we call `.toObject`
+			transform: (_doc, user) => {
+				delete user.hashedPassword
+				return user
+			},
+		},
+	}
 )
+```
+
+2. FollowCart Schema
+```.js
+const followCartSchema = new mongoose.Schema(
+{
+  followers: [
+    {type: Schema.Types.ObjectId,
+    ref: 'User'} 
+  ],
+  followings: [
+    {type: Schema.Types.ObjectId,
+    ref: 'User'} 
+  ],
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  }
+},
+{
+  timestamps: true,
+  toObject: { virtuals: true },
+  toJSON: { virtuals: true }
+}
 ```
 
 
@@ -169,5 +283,8 @@ const contentSchema = new mongoose.Schema(
 =======
 ```
 
+<<<<<<< HEAD
 
 >>>>>>> ad1f0e8bdf93bbeaf6ccf93610e08e341b3a5502
+=======
+>>>>>>> bab7f29da3d915837d42f4e46a71b2f8b9ff4081
