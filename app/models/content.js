@@ -4,10 +4,6 @@ const Schema = mongoose.Schema
 
 const contentSchema = new mongoose.Schema(
     {
-      owner: {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
-    }, 
       img: {
         type: String,
         data: Buffer,
@@ -17,9 +13,12 @@ const contentSchema = new mongoose.Schema(
       },
       likes: [
         {type: Schema.Types.ObjectId,
-        ref: 'User'} 
-      ],
-  
+          ref: 'User'} 
+        ],
+        owner: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'User'
+        }, 
     }, {
         timestamps: true,
         toObject: { virtuals: true },

@@ -18,7 +18,8 @@ const requireToken = passport.authenticate('bearer', { session: false })
 const router = express.Router()
 
 //================================= GET ALL USERS =========================
-// GET - /
+// GET 
+// ROUTE -> /
 router.get('/', (req,res,next)=> {
 	User.find({})
 		.then(errors.handle404)
@@ -26,16 +27,18 @@ router.get('/', (req,res,next)=> {
 			console.log(`--------THESE ARE ALL THE USERS--------`, users)
 			res.json({users: users})
 		})
+		.catch(next)
 })
 
 
 //=================================== SIGN UP ================================
-// POST /sign-up
+// POST
+// ROUTE ->  /sign-up
 router.post('/sign-up', (req, res, next) => {
 
 	Promise.resolve(req.body.credentials)
 		.then((credentials) => {
-			console.log(credentials)
+			console.log(req.body.credentials)
 			if (
 				!credentials ||
 				!credentials.password ||
@@ -47,6 +50,7 @@ router.post('/sign-up', (req, res, next) => {
 		})
 		.then(() => bcrypt.hash(req.body.credentials.password, bcryptSaltRounds))
 		.then((hash) => {
+			console.log(`=========== req.body.credentials.name=========`, req.body.credentials.name)
 			return {
 				email: req.body.credentials.email,
 				hashedPassword: hash,
@@ -64,7 +68,8 @@ router.post('/sign-up', (req, res, next) => {
 })
 
 // ================================ SIGN IN ================================
-// POST /sign-in
+// POST 
+// ROUTE -> /sign-in
 router.post('/sign-in', (req, res, next) => {
 	const pw = req.body.credentials.password
 	let user
@@ -94,7 +99,8 @@ router.post('/sign-in', (req, res, next) => {
 })
 
 // ================================ CHANGE password ================================
-// PATCH /change-password
+// PATCH 
+// ROUTE -> /change-password
 router.patch('/change-password', requireToken, (req, res, next) => {
 	let user
 	User.findById(req.user.id)
@@ -118,7 +124,8 @@ router.patch('/change-password', requireToken, (req, res, next) => {
 })
 
 // ================================ SIGN OUT ================================
-// DELETE /sign-out
+// DELETE 
+// ROUTE -> /sign-out
 router.delete('/sign-out', requireToken, (req, res, next) => {
 	req.user.token = crypto.randomBytes(16)
 	req.user
@@ -128,12 +135,24 @@ router.delete('/sign-out', requireToken, (req, res, next) => {
 })
 
 // ================================ UPDATE ================================
-// PUT /update
+// PUT
+// ROUTE ->  /update/:userId
+
+// router.get('/update/:userId', requireToken, (req,res)=> {
+// 	const userId = req.params.userId
+// 	User.findById(userId)
+// 		.then(errors.handle404)
+// 		.then(user=> {
+// 			console.log(user)
+// 			res.json({user:user})
+// 		})
+// })
 
 
-router.patch('/update', requireToken, (req, res, next) => {
+router.patch('/update/:userId', requireToken, (req, res, next) => {
 	// using userId to avoid using it directly in find to avoid '_.id' issues
-	const userId = req.user.id
+	const userId = req.params.userId
+	// const userId = req.user.id
 	console.log(` ========= This is USERID =========`, userId)
   
 	User.findByIdAndUpdate(userId, { $set: req.body.credentials }, { new: true })
@@ -150,6 +169,27 @@ router.patch('/update', requireToken, (req, res, next) => {
 		res.status(500).json({ message: err.message })
 	  })
   })
+
+  // ================================ SHOW PROFILE ================================
+//   router.get('/:userId', (req,res,next)=> {
+// 	const user = req.params.userId
+// 	User.findById(user)
+// 		.then(errors.handle404)
+// 		.then((user)=> {
+// 			console.log(`--------THIS IS A SPECIFIC USER--------`, user)
+// 			res.json({user: user})
+// 		})
+// })
+
+router.get('/:userId', (req,res,next)=> {
+	const user = req.params.userId
+	User.findById(user)
+		.then(errors.handle404)
+		.then((user)=> {
+			console.log(`--------THIS IS A SPECIFIC USER--------`, user)
+			res.json({user: user})
+		})
+})
 
   
 

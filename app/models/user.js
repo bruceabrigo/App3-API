@@ -18,7 +18,8 @@ const userSchema = new mongoose.Schema(
 		},
 		coverPicture: {
 			type: String,
-			data: Buffer
+			data: Buffer,
+			default: "https://media.istockphoto.com/id/1272917828/photo/trees-in-the-park-in-autumn-on-sunny-day.jpg?s=612x612&w=0&k=20&c=kTvaP_LdgOisnjzPM73pMVYkw_CyIVuKtc0Ux8hePAk="
 		},
 		name: {
 			type: String
@@ -30,7 +31,8 @@ const userSchema = new mongoose.Schema(
 			type: String
 		},
 		active: {
-			type: Boolean
+			type: Boolean,
+			default: false
 		}
 
 	},
