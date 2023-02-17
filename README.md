@@ -40,57 +40,120 @@ BONUS
 
 ![Alt text](img/App3-API.jpeg)
 
+# ROUTES
+
+### User Routes
+| **URL**            | **HTTP Verb**|**Action**          |
+|--------------------|--------------|--------------------|
+| /                  | GET          | all Users          |
+| /sign-up           | GET          | new                |
+| /sign-up           | POST         | create             |
+| /sign-in           | GET          | login              |
+| /sign-in           | POST         | create             |
+| /sign-out          | DELETE       | destroy            |
+| /update/:userId    | UPDATE       | Update info        |
+| /:userId           | GET          | Show user Profile  |
+
+
+### FollowCart Routes
+| **URL**                        | **HTTP Verb**|**Action**       |
+|--------------------------------|--------------|-----------------|
+| /follow                        | GET          | all followCarts |
+| /followers/:user/:anUserId     | GET/CREATE   | add Followers   |
+| /:user/:anUserId               | GET/CREATE   | follow Others   |
+
+
+### Content Routes
+| **URL**                        | **HTTP Verb**|**Action**               |
+|--------------------------------|--------------|-------------------------|
+| /content/:user                 | POST         | create                  | 
+| /content/                      | GET          | all Content             |
+| /content/:user                 | GET          | specific User's Content |
+| /content/likes/:userId/:conId  | GET/CREATE   | add likes to content    |
+| /content/:contentId            | UPDATE       | update content          |
+| /content/delete/:contentId     | DELETE       | remove content          |
+
+
+
+
+
+
+
+
 # Models 
 1. User Schema
 
 ```.js
-
 const userSchema = new mongoose.Schema(
-  {
-    profilePicture: {
-      type: String,
-      data: Buffer
-    },
-    coverPicture: {
-        type: String,
-        data: Buffer
-    },
-    followers: [
-        {type: Schema.Types.ObjectId,
-        ref: 'User'} 
-    ],
-    followings: [
-        {type: Schema.Types.ObjectId,
-        ref: 'User'} 
-    ],
-    username: { 
-      type: String, 
-      required: true, 
-      unique: true 
-    },
-    email: {
-      type: String, 
-      required: true 
-    },
-    password: {
-        type: String
-    },
-    description: {
-        type: String
-    },
-    city: {
-        type: String
-    },
-    active: {
-        type: Boolean
-    }
+	{
+		email: {
+			type: String,
+			required: true,
+			unique: true,
+		},
+		hashedPassword: {
+			type: String,
+			required: true,
+		},
+		token: String,
+		profilePicture: {
+			type: String,
+			data: Buffer
+		},
+		coverPicture: {
+			type: String,
+			data: Buffer
+		},
+		name: {
+			type: String
+		},
+		description: {
+			type: String
+		},
+		city: {
+			type: String
+		},
+		active: {
+			type: Boolean
+		}
 
-  }, {
-      timestamps: true,
-      toObject: { virtuals: true },
-      toJSON: { virtuals: true }
-  }
+	},
+	{
+		timestamps: true,
+		toObject: {
+			// remove `hashedPassword` field when we call `.toObject`
+			transform: (_doc, user) => {
+				delete user.hashedPassword
+				return user
+			},
+		},
+	}
 )
+```
+
+2. FollowCart Schema
+```.js
+const followCartSchema = new mongoose.Schema(
+{
+  followers: [
+    {type: Schema.Types.ObjectId,
+    ref: 'User'} 
+  ],
+  followings: [
+    {type: Schema.Types.ObjectId,
+    ref: 'User'} 
+  ],
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  }
+},
+{
+  timestamps: true,
+  toObject: { virtuals: true },
+  toJSON: { virtuals: true }
+}
 ```
 
 
