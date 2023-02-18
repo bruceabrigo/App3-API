@@ -15,11 +15,12 @@ const mongoose = require('mongoose')
 // ---------------- GET INDEX ----------------
 // ROUTES -> /content/
 router.get('/', (req, res, next) => {
-    Content.find({})
+    Content.find()
         .populate('owner', 'likes')
         .then((contents) => {
-            res.json({contents})
+            return contents.map((content) => content.toObject())
         })
+        .then((contents) => res.status(200).json({contents: contents}))
         .catch(next)
 
 })
@@ -47,6 +48,32 @@ router.get('/likes/:userId/:conId', (req,res,next)=> {
         .catch(next)
 })
 
+// ---------------- SHOW One Content  ----------------
+// ROUTES -> /content/:user
+router.get('/:user', (req, res, next) => {
+    user = req.params.user
+    Content.findById(req.params)
+        // .populate('owner', 'likes')
+        // .then((content) => {
+        //     res.json({content: content})
+        // })
+        .then((content) => res.status(200).json({content:content}))
+        .catch(next)
+})
+
+// ---------------- CREATE ----------------
+// ROUTES -> /content/:user
+router.post('/', requireToken, (req, res, next) => {
+    req.body.content.owner = req.user
+    console.log('req.user: ', req.user)
+    console.log('content owner: ', req.body)
+    Content.create(req.body.content)
+        .then((content) => {
+            res.status(201).json({content: content.toObject()})
+        })
+        .catch(next)
+
+})
 // ---------------- DELETE ----------------
 // ROUTES -> /content/delete/:contentId
 
@@ -62,43 +89,22 @@ router.delete('/delete/:contentId', (req, res, next) => {
   });
   
 
-// ---------------- CREATE ----------------
-// ROUTES -> /content/:user
-router.post('/:user', (req, res, next) => {
-    user = req.params.userId
-    req.body.content.owner = req.userId
-    console.log('content owner: ', req.body)
-    console.log('user in post: ', user)
-    Content.create(req.body.content)
-        .then((content) => {
-            res.status(201).json({content: content.toObject()})
-        })
-        .catch(next)
 
-})
-
-// ---------------- SHOW One Content  ----------------
-// ROUTES -> /content/:user
-router.get('/:user', (req, res, next) => {
-    user = req.params.user
-    Content.findById(user)
-        // .populate('owner', 'likes')
-        // .then((content) => {
-        //     res.json({content: content})
-        // })
-        .then((content) => res.status(200).json({content:content}))
-        .catch(next)
-})
 
 // ---------------- UPDATE ----------------
 // ROUTES -> /content/:contentId
-
-router.patch('/:contentId', requireToke, removeBlanks, (req, res, next) => {
-    delete req.body.content.owner
-
-    Content.findById(req.params.id)
+  router.patch('/:contentId', requireToken, removeBlanks, (req, res, next) => {
+    console.log('Content id: ', req.params.contentId)
+    console.log('req.user: ', req.user)
+    Content.findById(req.params.contentId)
         .then(handle404)
-        .then((content))
+        .then((content) => {
+            console.log('this is the content: ', content)
+            requireOwnership(req, content)
+            return content.updateOne(req.body.content)
+        })
+        .then(() => res.sendStatus(204))
+        .catch(next)
   })
   
 
