@@ -49,20 +49,18 @@ router.get('/likes/:userId/:conId', (req,res,next)=> {
 })
 
 // ---------------- SHOW One Content  ----------------
-// ROUTES -> /content/:user
-router.get('/:user', (req, res, next) => {
-    user = req.params.user
-    Content.findById(req.params)
-        // .populate('owner', 'likes')
-        // .then((content) => {
-        //     res.json({content: content})
-        // })
-        .then((content) => res.status(200).json({content:content}))
+// ROUTES -> /content/<content.id>
+router.get('/:id', (req, res, next) => {
+    console.log('req.params in SHOW: ', req.params)
+    Content.findById(req.params.id)
+        .populate('owner', 'likes')
+        .then(handle404)
+		.then((content) => res.status(200).json({ content: content.toObject() }))
         .catch(next)
 })
 
 // ---------------- CREATE ----------------
-// ROUTES -> /content/:user
+// ROUTES -> /content/
 router.post('/', requireToken, (req, res, next) => {
     req.body.content.owner = req.user
     console.log('req.user: ', req.user)
