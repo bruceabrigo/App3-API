@@ -99,7 +99,6 @@ router.patch('/:contentId', requireToke, removeBlanks, (req, res, next) => {
     Content.findById(req.params.id)
         .then(handle404)
         .then((content))
-		.then(content => requireOwnership(req, content))
   })
   
 
