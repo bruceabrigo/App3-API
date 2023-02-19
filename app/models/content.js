@@ -1,7 +1,10 @@
+//// part 1 - Connections
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 // const commentSchema = require('./comments')
 
+
+//// Part 2 -> Schema 
 const contentSchema = new mongoose.Schema(
     {
       owner: {
@@ -27,4 +30,5 @@ const contentSchema = new mongoose.Schema(
     }
   )
 
+  // Part 3 -> Model and Export
 module.exports = mongoose.model('Content', contentSchema)
