@@ -20,7 +20,7 @@ const router = express.Router()
 //================================= GET ALL USERS =========================
 // GET 
 // ROUTE -> /
-router.get('/', (req,res,next)=> {
+router.get('/users', (req,res,next)=> {
 	User.find({})
 		.then(errors.handle404)
 		.then((users)=> {
@@ -181,7 +181,7 @@ router.patch('/update/:userId', requireToken, (req, res, next) => {
 // 		})
 // })
 
-router.get('/:userId', (req,res,next)=> {
+router.get('/user/:userId', (req,res,next)=> {
 	const user = req.params.userId
 	User.findById(user)
 		.then(errors.handle404)
