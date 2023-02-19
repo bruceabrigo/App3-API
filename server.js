@@ -67,9 +67,9 @@ app.use(express.urlencoded({ extended: true }))
 app.use(requestLogger)
 
 // register route files
-app.use('/comments', commentRoutes)
 app.use('/content', contentRouter)
 app.use(followCartRoutes)
+app.use('comments', commentRoutes)
 app.use(userRoutes)
 
 

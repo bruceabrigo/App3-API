@@ -1,36 +1,21 @@
+//////////////// COMMENT SCHEMA ////////
+
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-
-const commentSchema = new mongoose.Schema({
-    body: {
-        type: String,
+// const commentSchema = require('./comments')
+const commentSchema = new mongoose.Schema(
+    {
+      owner: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
         required: true
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    },
-    userId: {  
-        type: Schema.Types.ObjectId,
-        ref: 'User'
-    },
-    parentId: {
-        type: Schema.Types.ObjectId,
-        ref: 'Comment'
-    },
-    username: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Comment'
-    }]
-})
+      },
+      usercomment: {
+          type: String,
+          
+      }
+    }
+  )
 
-module.exports = mongoose.model('Comment', commentSchema)
-//
-// // Seed comments
-//
-// const seed = async () => {
-//   const users = await User.find();
-//   const comments = [
-//     {
-//       text: 'This is a comment',
+  module.exports = mongoose.model('Comment', commentSchema)

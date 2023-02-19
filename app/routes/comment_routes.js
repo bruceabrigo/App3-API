@@ -1,55 +1,79 @@
-const express  = require('express')
-const router   = express.Router()
-const Comment = require('../models/comment')
+////////////// Comment Routes /////////
+const express = require('express')
+const passport = require('passport')
 
-// Create Comment
-router.post('/comments', async (req, res) => {
-    try {
-        const comment = await Comment.create(req.body)
-        res.status(201).json({ comment })
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({ error: error.message })
-    }
+const customErrors = require('../../lib/custom_errors')
+const handle404 = customErrors.handle404
+const requireOwnership = customErrors.requireOwnership
+const errors = require('../../lib/custom_errors')
+const removeBlanks = require('../../lib/remove_blank_fields')
+const requireToken = passport.authenticate('bearer', { session: false })
+const router = express.Router()
+const mongoose = require('mongoose')
+const Comment = require(('../models/comment'))
+
+
+
+
+// ---------------- GET INDEX ----------------
+// ROUTES -> /comments/
+
+router.get('/', (req, res, next)=> {
+    Comment.find({})
+        .then(handle404)
+        .then(comment=> {
+            res.json({comment: comment})
+        })
+        .catch(next)
 })
 
-// Get all comments
-router.get('/comments', async (req, res) => {
-    try {
-        const comments = await Comment.find()
-        res.status(200).json({ comments })
-    } catch (error) {
-        res.status(500).send(error.message)
-    }
+// ---------------- Create Comment ----------------
+// ROUTES -> /comments/:userId
+
+router.post(`/:userId`, (req,res, next)=>{
+    const userId = req.params.userId
+    Comment.create({
+        owner: userId,
+        usercomment: req.body.usercomment
+    })
+    .then(handle404)
+    .then(comment=> {
+        console.log(`CREATED A NEW COMMENT`, comment)
+        res.json({comment: comment})
+    })
+    .catch(next)
 })
 
-// Get one comment
-router.get('/comments/:id', async (req, res) => {
-    try {
-        const { id } = req.params
-        const comment = await Comment.findById(id)
-        if (comment) {
-            return res.status(200).json({ comment })
-        }
-        res.status(404).send('Comment with the specified ID does not exists')
-    } catch (error) {
-        res.status(500).send(error.message)
-    }
-})
+//------------ UPDATE Comment ------------------
+// PATCH ROUTES -> /comments/:userId
 
-// Delete comment
-router.delete('/comments/:id', async (req, res) => {
-    try {
-        const { id } = req.params
-        const deleted = await Comment.findByIdAndDelete(id)
-        if (deleted) {
-            return res.status(200).send('Comment deleted')
-        }
-        throw new Error('Comment not found')
-    } catch (error) {
-        res.status(500).send(error.message)
-    }
-})
+router.patch(`/:userId`, (req,res, next)=>{
+    const userId = req.params.userId
+    Comment.findOneAndUpdate({owner: userId}, {
+        usercomment: req.body.usercomment
+    })
+    .then(handle404)
+    .then(comment=> {
+        console.log(`UPDATED A NEW COMMENT`, comment)
+        res.json({comment: comment})
+    })
+    .catch(next)
+}
+)
 
+//------------ Delete Comment ------------------
+// Delete ROUTES -> /comments/:userId
 
-module.exports = router
+router.delete(`/:userId`, (req,res, next)=>{
+    const userId = req.params.userId
+    Comment.findOneAndDelete({owner: userId})
+    .then(handle404)
+    .then(comment=> {
+        console.log(`DELETED A NEW COMMENT`, comment)
+        res.json({comment: comment})
+    })
+    .catch(next)
+}
+)
+
+module.exports = router 
