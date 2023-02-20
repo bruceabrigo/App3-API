@@ -45,22 +45,22 @@ BONUS
 ### User Routes
 | **URL**            | **HTTP Verb**|**Action**          |
 |--------------------|--------------|--------------------|
-| /                  | GET          | all Users          |
+| /users             | GET          | all Users          |
 | /sign-up           | GET          | new                |
 | /sign-up           | POST         | create             |
 | /sign-in           | GET          | login              |
 | /sign-in           | POST         | create             |
 | /sign-out          | DELETE       | destroy            |
 | /update/:userId    | UPDATE       | Update info        |
-| /:userId           | GET          | Show user Profile  |
+| /user/:userId      | GET          | Show user Profile  |
 
 
 ### FollowCart Routes
-| **URL**                        | **HTTP Verb**|**Action**       |
-|--------------------------------|--------------|-----------------|
-| /follow                        | GET          | all followCarts |
-| /followers/:user/:anUserId     | GET/CREATE   | add Followers   |
-| /:user/:anUserId               | GET/CREATE   | follow Others   |
+| **URL**                       | **HTTP Verb**|**Action**               |
+|-------------------------------|--------------|-------------------------|
+| /follow/                      | GET          | all followCarts         |
+| /follow/owner/:userId         | GET/CREATE   | One FollowCart          |
+| /follow/:user/:anUserId       | GET/CREATE   | followers & Followings  |
 
 
 ### Content Routes
@@ -68,7 +68,7 @@ BONUS
 |--------------------------------|--------------|-------------------------|
 | /content/:user                 | POST         | create                  | 
 | /content/                      | GET          | all Content             |
-| /content/:user                 | GET          | specific User's Content |
+| /content/:user                 | GET          | Show User's Content     |
 | /content/likes/:userId/:conId  | GET/CREATE   | add likes to content    |
 | /content/:contentId            | UPDATE       | update content          |
 | /content/delete/:contentId     | DELETE       | remove content          |

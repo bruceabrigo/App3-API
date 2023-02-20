@@ -30,20 +30,6 @@ router.get('/', (req,res)=> {
 		})
 })
 
-//=============================== CREATE A FOLLOW CART ===================================
-// ROUTES - /follow/owner/:ownerId
-
-// router.post('/owner/:userId', (req,res)=> {
-//     const userId = req.params.userId
-//     FollowCart.create({
-//         owner: userid,
-//         followers: [],
-//         followings: []
-//     })
-//         .then((fcart)=> {
-//             res.status(201).json({fcart: fcart})
-//         })
-// })
 
 //=============================== SHOW ONE FOLLOW ===================================
 // ROUTES - /follow/owner/:ownerId
@@ -91,64 +77,6 @@ router.get('/owner/:userId', (req,res)=> {
 		
 })
 
-//=============================== ADDING FOLLOWERS ===================================
-// ROUTES - /follow/:user/:anUserId
-
-// router.get('/followers/:user/:anUserId', (req, res) => {
-//     const userid = req.params.user
-//     const anUserId = req.params.anUserId
-//     console.log(`========= USER ID =======`, userid)
-//     console.log(`========= Another USER ID =======`, anUserId)
-
-//     // Find an existing followCart
-//     FollowCart.findOne({ owner: userid })
-//         .populate('owner', 'followings', 'followers')
-//         .then((fcart) => {
-//             if (fcart) {
-//                 console.log(`======= FIRST CONSOLE=====`)
-//                 console.log(`this is followCart`, fcart)
-        
-//                 fcart.followers.push(anUserId)
-//                 // console.log(fcart.followers.push(anUserId))
-//                 return fcart.save()
-
-                
-//                 // res.json(fcart)
-//             } else {
-//                 FollowCart.create({
-//                     owner: userid,
-//                     followers: [],
-//                     followings: []
-//                 }).then((fcart) => {
-//                     console.log(`======= SECOND CONSOLE=====`);
-//                     console.log(`this is followCart`, fcart)
-//                     fcart.followers.push(anUserId)
-//                     return fcart.save()
-//                     // res.json(fcart);
-//                 });
-//             }
-//         })
-//         .catch((err) => {
-//             if (err.name === 'CastError') {
-//                 // FollowCart not found
-//                 FollowCart.create({
-//                     owner: userid,
-//                     followers: [],
-//                     followings: []
-//                 }).then((fcart) => {
-//                     console.log(`======= THIRD CONSOLE=====`)
-//                     console.log(`this is followCart`, fcart)
-//                     fcart.followers.push(anUserId)
-//                     return fcart.save()
-//                     // res.json(fcart)
-//                 });
-//             } else {
-//                 // Other error
-//                 console.error(err);
-//                 res.status(500).json({ message: 'Internal server error' });
-//             }
-//         });
-// });
 
 //===============================  FOLLOWERS & FOLLOWINGS ===================================
 // ROUTES -> /follow/:user/:anUserId
