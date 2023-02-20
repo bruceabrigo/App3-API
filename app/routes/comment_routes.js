@@ -47,6 +47,28 @@ router.post(`/:userId`, (req,res, next)=>{
 // PATCH ROUTES -> /comments/:userId
 
 
+// router.patch('/:commentId',  (req, res, next) => {
+//     console.log('Comment id: ', req.params.commentId)
+//     console.log('req.body: ', req.body)
+//     Comment.findById(req.params.commentId) // pass the id of target content
+//         .then(handle404)
+//         .then((comment) => {
+//             console.log('this is the content: ', comment)
+//             // requireOwnership(req, comment) // check if user owns content
+//             // returned updated value of content
+
+//             return comment.updateOne(req.body).exec()
+
+//         })
+//         // .then(() => 
+//         // res.sendStatus(204)) // successful 204 on updated
+//         .then(comment => {
+//             console.log('req.body: ', req.body)
+//             res.json({comment: comment})
+//         })
+//         .catch(next)
+//   })
+
 //------------ Delete Comment ------------------
 // Delete ROUTES -> /comments/:userId
 

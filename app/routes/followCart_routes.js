@@ -220,6 +220,8 @@ router.get('/:user/:anUserId', (req, res, next) => {
     
         // Find an existing followCart
         FollowCart.findOne({ owner: userid })
+                .populate('followers')
+                .populate('followings')
             .then((fcart) => {
                 if (fcart) {
                     console.log(`======= FIRST CONSOLE=====`)
@@ -233,21 +235,22 @@ router.get('/:user/:anUserId', (req, res, next) => {
                     .then(()=> {
                         
                         FollowCart.findOne({owner: anUserId})
+                            .populate('followers')
+                            .populate('followings')
                             .then(fcart=> {
                                 if(fcart){
-                                    
                                     fcart.followers.push(userid)
                                     console.log(`ANOTHER USERS FCART `, fcart)
                                     return fcart.save()
 
                                 } else {
-
-                                
                                 FollowCart.create({
                                     owner: anUserId,
                                     followers: [],
                                     followings: []
                                 })
+                                
+
                                 .then((fcart)=> {
                                     fcart.followers.push(userid)
                                     console.log(`ANOTHER USERS FCART CREATED`, fcart)
