@@ -2,7 +2,9 @@
 # SOCIAL MEDIA APP
 
 ## DEVELOPER DETAILS
+## DEVELOPER DETAILS
 - This is a Social Media Application
+-  CREATED BY BRE-Crypt ===> Rita, Enoch, and Bruce
 -  CREATED BY BRE-Crypt ===> Rita, Enoch, and Bruce
 
 # User Story
@@ -39,47 +41,6 @@ BONUS
 # ENTITY RELATIONSHIP CHART
 
 ![Alt text](img/App3-API.jpeg)
-
-# ROUTES
-
-### User Routes
-| **URL**            | **HTTP Verb**|**Action**     |
-|--------------------|--------------|---------------|
-| /                  | GET          | all Users     |
-| /sign-up           | GET          | new           |
-| /sign-up           | POST         | create        |
-| /sign-in           | GET          | login         |
-| /sign-in           | POST         | create        |
-| /sign-out          | DELETE       | destroy       |
-| /update            | UPDATE       | Update info   |
-
-
-### FollowCart Routes
-| **URL**                        | **HTTP Verb**|**Action**       |
-|--------------------------------|--------------|-----------------|
-| /follow                        | GET          | all followCarts |
-| /followers/:user/:anUserId     | GET/CREATE   | add Followers   |
-| /:user/:anUserId               | GET/CREATE   | follow Others   |
-
-
-### Content Routes
-| **URL**                        | **HTTP Verb**|**Action**               |
-|--------------------------------|--------------|-------------------------|
-| /content/:user                 | POST         | create                  | 
-| /content/                      | GET          | all Content             |
-| /content/:user                 | GET          | specific User's Content |
-| /content/likes/:userId/:conId  | GET/CREATE   | add likes to content    |
-| /content/:contentId            | UPDATE       | update content          |
-| /content/delete/:contentId     | DELETE       | remove content          |
-
-
-
-
-
-
-
-
-# Models 
 1. User Schema
 
 ```.js
