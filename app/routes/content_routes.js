@@ -14,12 +14,13 @@ const mongoose = require('mongoose')
 
 // ---------------- GET INDEX ----------------
 // ROUTES -> /content/
-router.get('/', (req, res, next) => {
-    Content.find({})
-        .populate('owner', 'likes', 'user')
+router.get('/', (req, res, next) => { 
+    Content.find()
+        .populate('owner', 'likes')
         .then((contents) => {
-            res.json({contents})
+            return contents.map((content) => content.toObject()) //returns all content data saved to db as an object
         })
+        .then((contents) => res.status(200).json({contents: contents})) // takes contents as an argument to be viewed as json
         .catch(next)
 
 })
@@ -47,64 +48,71 @@ router.get('/likes/:userId/:conId', (req,res,next)=> {
         .catch(next)
 })
 
-// ---------------- DELETE ----------------
-// ROUTES -> /content/delete/:contentId
-
-router.delete('/delete/:contentId', (req, res, next) => {
-    // Need userId to match the owner of the content
-    const contentId = req.params.contentId;
-    Content.deleteOne({ _id: contentId })
-      .then((content) => {
-        console.log(content)
-        res.status(200).json({ message: 'Content deleted successfully' });
-      })
-      .catch(next);
-  });
-  
-
-// ---------------- CREATE ----------------
-// ROUTES -> /content/:user
-router.post('/:user', (req, res, next) => {
-    user = req.params.user
-    Content.create(req.body.content)
-        .then((content) => {
-            res.status(201).json({content: content.toObject()})
-        })
+// ---------------- SHOW One Content  ----------------
+// ROUTES -> /content/<content.id>
+router.get('/:id', (req, res, next) => {
+    console.log('req.params in SHOW: ', req.params)
+    Content.findById(req.params.id) 
+        .populate('owner', 'likes')
+        .then(handle404)
+		.then((content) => res.status(200).json({ content: content.toObject() })) // same as index, instead will return json object of an id specific content in database
         .catch(next)
-
 })
 
-// ---------------- SHOW One Content  ----------------
-// ROUTES -> /content/:user
-router.get('/:user', (req, res, next) => {
-    user = req.params.user
-    Content.findById(user)
-        // .populate('owner', 'likes')
+// ---------------- CREATE ----------------
+// ROUTES -> /content/
+router.post('/', requireToken, (req, res, next) => {
+    req.body.content.owner = req.user
+    console.log('req.user: ', req.user)
+    console.log('content owner: ', req.body)
+    Content.create(req.body.content)
         .then((content) => {
-            res.json({content: content})
+            res.status(201).json({content: content.toObject()}) // 201 success on create call to database, key value pair to be created are defined in api call {contents: {material: '<value>'}}
         })
-        .then((content) => res.status(200).json({content:content}))
         .catch(next)
+
 })
 
 // ---------------- UPDATE ----------------
 // ROUTES -> /content/:contentId
-
-router.patch('/:contentId', (req, res, next) => {
-    const contentId = req.params.contentId
-    console.log(` ========= This is CONTENT ID =========`, contentId)
-  
-    Content.findByIdAndUpdate(contentId, { $set: req.body }, { new: true })
-        .populate('owner', 'likes')
-        .then((updatedContent) => {
-            if (!updatedContent) {
-            throw new Error(`Content with id ${contentId} not found`)
-            }
-            console.log(`========= UPDATED CONTENT =======`, updatedContent)
-            res.json({ message: 'Content updated successfully', content: updatedContent })
+  router.patch('/:contentId', requireToken, removeBlanks, (req, res, next) => {
+    console.log('Content id: ', req.params.contentId)
+    console.log('req.user: ', req.user)
+    Content.findById(req.params.contentId) // pass the id of target content
+        .then(handle404)
+        // if the content id is found on api call
+        // view the json data of content id
+        // if user matches the owner of the content id, allow user to delete the post
+        .then((content) => {
+            console.log('this is the content: ', content)
+            requireOwnership(req, content)
+            // returned updated value of content
+            return content.updateOne(req.body.content)
         })
+        .then(() => res.sendStatus(204)) // successful 204 on updated
         .catch(next)
   })
+
+// ---------------- DELETE ----------------
+
+// ROUTES -> /content/delete/<contentId>
+router.delete('/delete/:id', requireToken, (req, res, next) => {
+    // Need userId to match the owner of the content
+    Content.findById(req.params.id)
+        .then(handle404)
+        .then((content) => {
+            // when content is passed, check if token matches that of loggedIn user token
+            // if matched, take content.id, and delete from the database
+            requireOwnership(req, content)
+            content.deleteOne()
+        })
+        .then(() => res.sendStatus(204)) // send a 204 <no content> on successful delete
+        .catch(next)
+  });
+  
+
+
+
   
 
 
