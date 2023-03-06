@@ -10,7 +10,7 @@ processes = []
 
 [env]
   PORT = "8080"
-  MONGODB_URI = "mongodb+srv://babrigo:812002@sociliitecluster.mmu5dpl.mongodb.net/?retryWrites=true&w=majority"
+  MONGODB_URI = "mongodb+srv://babrigo:812002@sociliitecluster.mmu5dpl.mongodb.net/socialiteapi?retryWrites=true&w=majority"
   CLIENT_ORIGIN = "https://socialitemedia.netlify.app"
 
 [experimental]

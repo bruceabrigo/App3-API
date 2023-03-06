@@ -20,7 +20,7 @@ const router = express.Router()
 //================================= GET ALL USERS =========================
 // GET 
 // ROUTE -> /
-router.get('/', (req,res,next)=> {
+router.get('/users', (req,res,next)=> {
 	User.find({})
 		.then(errors.handle404)
 		.then((users)=> {
@@ -138,16 +138,6 @@ router.delete('/sign-out', requireToken, (req, res, next) => {
 // PUT
 // ROUTE ->  /update/:userId
 
-// router.get('/update/:userId', requireToken, (req,res)=> {
-// 	const userId = req.params.userId
-// 	User.findById(userId)
-// 		.then(errors.handle404)
-// 		.then(user=> {
-// 			console.log(user)
-// 			res.json({user:user})
-// 		})
-// })
-
 
 router.patch('/update/:userId', requireToken, (req, res, next) => {
 	// using userId to avoid using it directly in find to avoid '_.id' issues
@@ -171,17 +161,8 @@ router.patch('/update/:userId', requireToken, (req, res, next) => {
   })
 
   // ================================ SHOW PROFILE ================================
-//   router.get('/:userId', (req,res,next)=> {
-// 	const user = req.params.userId
-// 	User.findById(user)
-// 		.then(errors.handle404)
-// 		.then((user)=> {
-// 			console.log(`--------THIS IS A SPECIFIC USER--------`, user)
-// 			res.json({user: user})
-// 		})
-// })
 
-router.get('/:userId', (req,res,next)=> {
+router.get('/user/:userId', (req,res,next)=> {
 	const user = req.params.userId
 	User.findById(user)
 		.then(errors.handle404)
